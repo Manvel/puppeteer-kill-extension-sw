@@ -8,14 +8,18 @@ async function run()
     `--load-extension=${extensionPath}`,
     "--no-sandbox"
   ]});
-  page = await browser.newPage();
-  
-  setTimeout(async () => {
-    const targets = await browser.targets();
-    const serviceWorkerTarget = targets.find((target) => target.type() === "service_worker");
-    const serviceWorker = await serviceWorkerTarget.worker();
-    serviceWorker.evaluate(() => console.log("EXECUTED BY PPTR"));
-  }, 1000); // Arbitriary wait time, so extension is loaded.
+
+  await sleep(1000); // Arbitriary wait time, so extension is loaded.
+  const page = await browser.newPage();
+  await page.goto("http://example.com");
+  const swIntPage = await browser.newPage();
+  await swIntPage.goto("chrome://serviceworker-internals");
+  await page.bringToFront();
+  await swIntPage.click("#serviceworker-list .stop");
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(() => resolve(), ms));
 }
 
 run();
