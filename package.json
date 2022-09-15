@@ -1,0 +1,23 @@
+{
+  "name": "puppeteer-kill-extension-sw",
+  "version": "1.0.0",
+  "description": "There is no API available for killing Browser Extensions Service Worker. One way to do manually is from the `chrome://serviceworker-internals` page. But the problem is that if puppeteer is used for opening the page and programmatically clicking on the `stop` button of the extension service worker item, the Service Worker doesn't start at all unless reloading the extension. Meaning wake-up events doesn't start Service Worker again and even clicking `Start` button in `chrome://serviceworker-internals` doesn't work.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pptr": "node ./puppeteer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Manvel/puppeteer-kill-extension-sw.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Manvel/puppeteer-kill-extension-sw/issues"
+  },
+  "homepage": "https://github.com/Manvel/puppeteer-kill-extension-sw#readme",
+  "dependencies": {
+    "puppeteer": "^17.1.3"
+  }
+}
