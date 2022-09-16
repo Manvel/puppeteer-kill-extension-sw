@@ -16,6 +16,9 @@ async function run()
   await swIntPage.goto("chrome://serviceworker-internals");
   await page.bringToFront();
   await swIntPage.click("#serviceworker-list .stop");
+  await page.click("#send-rpc-msg");
+  // Evaluating the click wake up extension much more faster rather than using await page.click
+  // await page.evaluate(() => document.getElementById("send-rpc-msg").click());
 }
 
 function sleep(ms) {
