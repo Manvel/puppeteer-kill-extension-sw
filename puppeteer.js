@@ -8,8 +8,12 @@ async function run()
     `--load-extension=${extensionPath}`,
     "--no-sandbox"
   ]});
-
   await sleep(1000); // Arbitriary wait time, so extension is loaded.
+
+  // THE LINE BELOW CAUSES THE EXTENSION SERVICE WORKER TO GO INTO DEAD MODE,
+  // MEANING THE SERVICE WORKER NEVER WAKES UP.
+  const worker = await getWorker(browser); 
+
   const page = await browser.newPage();
   await page.goto("http://example.com");
   const swIntPage = await browser.newPage();
@@ -17,8 +21,16 @@ async function run()
   await page.bringToFront();
   await swIntPage.click("#serviceworker-list .stop");
   await page.click("#send-rpc-msg");
-  // Evaluating the click wake up extension much more faster rather than using await page.click
-  // await page.evaluate(() => document.getElementById("send-rpc-msg").click());
+}
+
+async function getWorker(browser) {
+  const targets = browser.targets();
+  const backgroundPageTarget = targets.find(
+    (target) =>
+      target.url().startsWith("chrome-extension://") &&
+      (target.type() === "background_page" || target.type() === "service_worker")
+  );
+  return backgroundPageTarget.worker();
 }
 
 function sleep(ms) {
