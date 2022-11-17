@@ -12,4 +12,10 @@ function createBtn() {
   document.body.appendChild(btn);
 }
 
+chrome.runtime.onMessage.addListener((request) => {
+    if (request.message === "shortcut")
+      alert("Action shortcut or click on icon triggered");
+  }
+);
+
 createBtn();

@@ -1,9 +1,9 @@
 const puppeteer = require("puppeteer");
 const extensionPath = "extension";
-
+let browser;
 async function run()
 {
-  const browser = await puppeteer.launch({headless: false, args: [
+  browser = await puppeteer.launch({headless: false , args: [
     `--disable-extensions-except=${extensionPath}`,
     `--load-extension=${extensionPath}`,
     "--no-sandbox"
